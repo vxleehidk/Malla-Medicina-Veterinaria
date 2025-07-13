@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Malla Veterinaria Interactiva con Progreso</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f0f2f5;
+    margin: 0; padding: 20px;
+  }
+  h1 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 20px;
+  }
+  .container {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    padding-bottom: 20px;
+  }
+  .semestre {
+    flex: 0 0 280px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    padding: 15px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  .semestre h2 {
+    margin-top: 0;
+    color: #2980b9;
+    text-align: center;
+  }
+  .progress-bar {
+    height: 12px;
+    width: 100%;
+    background: #ddd;
+    border-radius: 6px;
+    margin: 10px 0 15px 0;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    width: 0%;
+    background: #3498db;
+    transition: width 0.3s ease;
+  }
+  .asignatura {
+    display: flex;
+    align-items: center;
+    margin: 6px 0;
+    padding: 8px;
+    background: #ecf5ff;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s;
+    opacity: 1;
+  }
+  .asignatura.disabled {
+    background: #f2f2f2;
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  .asignatura:hover:not(.disabled) {
+    background: #d0e7ff;
+  }
+  .asignatura input {
+    margin-right: 10px;
+  }
+  #info {
+    margin-top: 10px;
+    max-width: 90vw;
+    margin-left: auto;
+    margin-right: auto;
+    background: white;
+    border-left: 4px solid #2980b9;
+    padding: 15px;
+    min-height: 70px;
+    white-space: pre-wrap;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  }
+  .requisito {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #e74c3c;
+    color: white;
+    font-size: 11px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    user-select: none;
+  }
+</style>
+</head>
+<body>
+
+<h1>Malla Veterinaria Interactiva</h1>
+
+<div class="container">
+
+  <!-- SEMESTRE 1 -->
+  <div class="semestre" id="sem1">
+    <h2>1er Semestre</h2>
+    <div class="progress-bar"><div class="progress-fill" id="prog-sem1"></div></div>
+
+    <div class="asignatura" id="a-au1">
+      <input type="checkbox" id="au1" />
+      <label for="au1" onclick="mostrarInfo('au1')">Bases Moleculares (AU1)</label>
+    </div>
+    <div class="asignatura" id="a-mmi001">
+      <input type="checkbox" id="mmi001" />
+      <label for="mmi001" onclick="mostrarInfo('mmi001')">Introducción al manejo de la información (MMI001)</label>
+    </div>
+    <div class="asignatura" id="a-du10">
+      <input type="checkbox" id="du10" />
+      <label for="du10" onclick="mostrarInfo('du10')">Métodos de Cuantificación (DU10)</label>
+    </div>
+    <div class="asignatura" id="a-cu7">
+      <input type="checkbox" id="cu7" />
+      <label for="cu7" onclick="mostrarInfo('cu7')">Diversidad Animal (CU7)</label>
+    </div>
+    <div class="asignatura" id="a-omv001">
+      <input type="checkbox" id="omv001" />
+      <label for="omv001" onclick="mostrarInfo('omv001')">Orientación a la Medicina Veterinaria (OMV001)</label>
+    </div>
+  </div>
+
+  <!-- SEMESTRE 2 -->
+  <div class="semestre" id="sem2">
+    <h2>2º Semestre</h2>
+    <div class="progress-bar"><div class="progress-fill" id="prog-sem2"></div></div>
+
+    <div class="asignatura disabled" id="a-au3">
+      <input type="checkbox" id="au3" disabled />
+      <label for="au3" onclick="mostrarInfo('au3')">Bases Celulares (AU3)</label>
+      <span class="requisito">AU1</span>
+    </div>
+    <div class="asignatura disabled" id="a-sem-a">
+      <input type="checkbox" id="sem-a" disabled />
+      <label for="sem-a" onclick="mostrarInfo('sem-a')">Seminario Espacio (SEM-A)</label>
+    </div>
+    <div class="asignatura disabled" id="a-au2">
+      <input type="checkbox" id="au2" disabled />
+      <label for="au2" onclick="mostrarInfo('au2')">Bases Moleculares y Celulares (AU2)</label>
+      <span class="requisito">AU1</span>
+    </div>
+    <div class="asignatura disabled" id="a-bu4">
+      <input type="checkbox" id="bu4" disabled />
+      <label for="bu4" onclick="mostrarInfo('bu4')">Histología (BU4)</label>
+    </div>
+    <div class="asignatura disabled" id="a-bu5">
+      <input type="checkbox" id="bu5" disabled />
+      <label for="bu5" onclick="mostrarInfo('bu5')">Anatomía (BU5)</label>
+    </div>
+    <div class="asignatura disabled" id="a-cu8">
+      <input type="checkbox" id="cu8" disabled />
+      <label for="cu8" onclick="mostrarInfo('cu8')">Ecología (CU8)</label>
+      <span class="requisito">CU7</span>
+    </div>
+    <div class="asignatura disabled" id="a-du11">
+      <input type="checkbox" id="du11" disabled />
+      <label for="du11" onclick="mostrarInfo('du11')">Bioestadística (DU11)</label>
+      <span class="requisito">MMI001 + DU10</span>
+    </div>
+  </div>
+
+  <!-- SEMESTRE 3 -->
+  <div class="semestre" id="sem3">
+    <h2>3er Semestre</h2>
+    <div class="progress-bar"><div class="progress-fill" id="prog-sem3"></div></div>
+
+    <div class="asignatura disabled" id="a-bu4_3">
+      <input type="checkbox" id="bu4_3" disabled />
+      <label for="bu4_3" onclick="mostrarInfo('bu4_3')">Histología (BU4)</label>
+    </div>
+    <div class="asignatura disabled" id="a-bu5_3">
+      <input type="checkbox" id="bu5_3" disabled />
+      <label for="bu5_3" onclick="mostrarInfo('bu5_3')">Anatomía (BU5)</label>
+    </div>
+    <div class="asignatura disabled" id="a-eu13">
+      <input type="checkbox" id="eu13" disabled />
+      <label for="eu13" onclick="mostrarInfo('eu13')">Fisiología I (EU13)</label>
+      <span class="requisito">AU3 + AU2</span>
+    </div>
+    <div class="asignatura disabled" id="a-cu9">
+      <input type="checkbox" id="cu9" disabled />
+      <label for="cu9" onclick="mostrarInfo('cu9')">Conducta Animal (CU9)</label>
+      <span class="requisito">CU8</span>
+    </div>
+    <div class="asignatura disabled" id="a-du12">
+      <input type="checkbox" id="du12" disabled />
+      <label for="du12" onclick="mostrarInfo('du12')">Epidemiología General (DU12)</label>
+      <span class="requisito">DU11</span>
+    </div>
+    <div class="asignatura" id="a-gu18_19">
+      <input type="checkbox" id="gu18_19" />
+      <label for="gu18_19" onclick="mostrarInfo('gu18_19')">Economía (GU18-19)</label>
+    </div>
+  </div>
+
+  <!-- SEMESTRE 4 -->
+  <div class="semestre" id="sem4">
+    <h2>4º Semestre</h2>
+    <div class="progress-bar"><div class="progress-fill" id="prog-sem4"></div></div>
+
+    <div class="asignatura disabled" id="a-maep">
+      <input type="checkbox" id="maep" disabled />
+      <label for="maep" onclick="mostrarInfo('maep')">Ecología de poblaciones (MAEP)</label>
+      <span class="requisito">CU8</span>
+    </div>
+    <div class="asignatura disabled" id="a-bu6">
+      <input type="checkbox" id="bu6" disabled />
+      <label for="bu6" onclick="mostrarInfo('bu6')">Bases inmunológicas (BU6)</label>
+      <span class="requisito">AU2</span>
+    </div>
+    <div class="asignatura disabled" id="a-eu14">
+      <input type="checkbox" id="eu14" disabled />
+      <label for="eu14" onclick="mostrarInfo('eu14')">Fisiología II (EU14)</label>
+      <span class="requisito">EU13 + BU5</span>
+    </div>
+    <div class="asignatura disabled" id="a-eu15">
+      <input type="checkbox" id="eu15" disabled />
+      <label for="eu15" onclick="mostrarInfo('eu15')">Farmacología general (EU15)</label>
+      <span class="requisito">EU13</span>
+    </div>
+    <div class="asignatura disabled" id="a-fu16">
+      <input type="checkbox" id="fu16" disabled />
+      <label for="fu16" onclick="mostrarInfo('fu16')">Agentes biológicos patógenos (FU16)</label>
+      <span class="requisito">AU3 + AU2</span>
+    </div>
+    <div class="asignatura" id="a-iu24">
+      <input type="checkbox" id="iu24" />
+      <label for="iu24" onclick="mostrarInfo('iu24')">Introducción a la producción animal (IU24)</label>
+    </div>
+    <div class="asignatura disabled" id="a-micb">
+      <input type="checkbox" id="micb" disabled />
+      <label for="micb" onclick="mostrarInfo('micb')">Módulo integrador ciclo básico (MICB)</label>
+      <span class="requisito">Todos previos</span>
+    </div>
+  </div>
+
+  <!-- SEMESTRE 5 -->
+  <div class="semestre" id="sem5">
+    <h2>5º Semestre</h2>
+    <div class="progress-bar"><div class="progress-fill" id="prog-sem5"></div></div>
+
+    <div class="asignatura disabled" id="a-maig">
+      <input type="checkbox" id="maig" disabled />
+      <label for="maig" onclick="mostrarInfo('maig')">Manipulación de información genética (MAIG)</label>
+      <span class="requisito">DU11</span>
+    </div>
+    <div class="asignatura disabled" id="a-fu17">
+      <input type="checkbox" id="fu17" disabled />
+      <label for="fu17" onclick="mostrarInfo('fu17')">Enfermedades infecciosas y parasitarias (FU17)</label>
+      <span class="requisito">FU16 + DU12</span>
+    </div>
+    <div class="asignatura disabled" id="a-hu20">
+      <input type="checkbox" id="hu20" disabled />
+      <label for="hu20" onclick="mostrarInfo('hu20')">Patología I (HU20)</label>
+      <span class="requisito">BU6 + EU14</span>
+    </div>
+    <div class="asignatura disabled" id="a-iu26">
+      <input type="checkbox" id="iu26" disabled />
+      <label for="iu26" onclick="mostrarInfo('iu26')">Nutrición (IU26)</label>
+      <span class="requisito">EU14 + IU24</span>
+    </div>
+    <div class="asignatura disabled" id="a-ju30">
+      <input type="checkbox" id="ju30" disabled />
+      <label for="ju30" onclick="mostrarInfo('ju30')">Bases tecnológicas diagnósticas (JU30)</label>
+      <span class="requisito">FU16 + BU6</span>
+    </div>
+  </div>
+
+  <!-- SEMESTRE 6 -->
+  <div class="semestre" id="sem6">
+    <h2>6º Semestre</h2>
+    <div class="progress-bar"><div class="progress-fill" id="prog-sem6"></div></div>
+
+    <div class="asignatura disabled" id="a-maat">
+      <input type="checkbox" id="maat" disabled />
+      <label for="maat" onclick="mostrarInfo('maat')">Anatomía topográfica (MAAT)</label>
+      <span class="requisito">BU5</span>
+    </div>
+    <div class="asignatura disabled" id="a-hu21">
+      <input type="checkbox" id="hu21" disabled />
+      <label for="hu21" onclick="mostrarInfo('hu21')">Patología II (HU21)</label>
+      <span class="requisito">HU20</span>
+    </div>
+    <div class="asignatura disabled" id="a-iu25">
+      <input type="checkbox" id="iu25" disabled />
+      <label for="iu25" onclick="mostrarInfo('iu25')">Genética Básica (IU25)</label>
+      <span class="requisito">MAIG</span>
+    </div>
+    <div class="asignatura disabled" id="a-iu27">
+      <input type="checkbox" id="iu27" disabled />
+      <label for="iu27" onclick="mostrarInfo('iu27')">Alimentación (IU27)</label>
+      <span class="requisito">IU26</span>
+    </div>
+    <div class="asignatura disabled" id="a-ju31">
+      <input type="checkbox" id="ju31" disabled />
+      <label for="ju31" onclick="mostrarInfo('ju31')">Métodos de exploración clínica (JU31)</label>
+      <span class="requisito">HU20 + JU30</span>
+    </div>
+  </div>
+
+  <!-- SEMESTRE 7 -->
+  <div class="semestre" id="sem7">
+    <h2>7º Semestre</h2>
+    <div class="progress-bar"><div class="progress-fill" id="prog-sem7"></div></div>
+
+    <div class="asignatura disabled" id="a-maca">
+      <input type="checkbox" id="maca" disabled />
+      <label for="maca" onclick="mostrarInfo('maca')">Conducta aplicada (MACA)</label>
+      <span class="requisito">IU24 + CU9</span>
+    </div>
+    <div class="asignatura disabled" id="a-hu22">
+      <input type="checkbox" id="hu22" disabled />
+      <label for="hu22" onclick="mostrarInfo('hu22')">Patología III (HU22)</label>
+      <span class="requisito">HU21</span>
+    </div>
+    <div class="asignatura disabled" id="a-hu23">
+      <input type="checkbox" id="hu23" disabled />
+      <label for="hu23" onclick="mostrarInfo('hu23')">Hematología (HU23)</label>
+      <span class="requisito">HU21</span>
+    </div>
+    <div class="asignatura disabled" id="a-iu28">
+      <input type="checkbox" id="iu28" disabled />
+      <label for="iu28" onclick="mostrarInfo('iu28')">Reproducción (IU28)</label>
+      <span class="requisito">HU21 + IU25</span>
+    </div>
+    <div class="asignatura disabled" id="a-iu29">
+      <input type="checkbox" id="iu29" disabled />
+      <label for="iu29" onclick="mostrarInfo('iu29')">Biotecnología reproductiva (IU29)</label>
+      <span class="requisito">IU25 + HU21</span>
+    </div>
+    <div class="asignatura disabled" id="a-mu38">
+      <input type="checkbox" id="mu38" disabled />
+      <label for="mu38" onclick="mostrarInfo('mu38')">Medicina I (MU38)</label>
+      <span class="requisito">JU31 + HU21</span>
+    </div>
+    <div class="asignatura disabled" id="a-ku32">
+      <input type="checkbox" id="ku32" disabled />
+      <label for="ku32" onclick="mostrarInfo('ku32')">Salud Pública Veterinaria (KU32)</label>
+      <span class="requisito">FU17</span>
+    </div>
+  </div>
+
+  <!-- SEMESTRE 8 -->
+  <div class="semestre" id="sem8">
+    <h2>8º Semestre</h2>
+    <div class="progress-bar"><div class="progress-fill" id="prog-sem8"></div></div>
+
+    <div class="asignatura disabled" id="a-maplan">
+      <input type="checkbox" id="maplan" disabled />
+      <label for="maplan" onclick="mostrarInfo('maplan')">Planificación (MAPLAN)</label>
+      <span class="requisito">GU18-19</span>
+    </div>
+    <div class="asignatura disabled" id="a-ku33">
+      <input type="checkbox" id="ku33" disabled />
+      <label for="ku33" onclick="mostrarInfo('ku33')">Gestión Ambiental (KU33)</label>
+      <span class="requisito">KU32</span>
+    </div>
+    <div class="asignatura disabled" id="a-ku34">
+      <input type="checkbox" id="ku34" disabled />
+      <label for="ku34" onclick="mostrarInfo('ku34')">Inocuidad de alimentos (KU34)</label>
+      <span class="requisito">KU32</span>
+    </div>
+    <div class="asignatura disabled" id="a-lu36_i">
+      <input type="checkbox" id="lu36_i" disabled />
+      <label for="lu36_i" onclick="mostrarInfo('lu36_i')">Manejo productivo (LU36_I)</label>
+      <span class="requisito">IU27 + IU28</span>
+    </div>
+    <div class="asignatura disabled" id="a-lu43">
+      <input type="checkbox" id="lu43" disabled />
+      <label for="lu43" onclick="mostrarInfo('lu43')">Obstetricia, ginecología y manejo productivo (LU43)</label>
+      <span class="requisito">IU28 + IU29</span>
+    </div>
+    <div class="asignatura disabled" id="a-mu38_8">
+      <input type="checkbox" id="mu38_8" disabled />
+      <label for="mu38_8" onclick="mostrarInfo('mu38_8')">Medicina I (MU38)</label>
+      <span class="requisito">JU31 + HU21</span>
+    </div>
+    <div class="asignatura disabled" id="a-micp">
+      <input type="checkbox" id="micp" disabled />
+      <label for="micp" onclick="mostrarInfo('micp')">Módulo integrador ciclo pre-profesional (MICP)</label>
+      <span class="requisito">Todos previos</span>
+    </div>
+  </div>
+
+  <!-- SEMESTRE 9 -->
+  <div class="semestre" id="sem9">
+    <h2>9º Semestre</h2>
+    <div class="progress-bar"><div class="progress-fill" id="prog-sem9"></div></div>
+
+    <div class="asignatura disabled" id="a-ku35">
+      <input type="checkbox" id="ku35" disabled />
+      <label for="ku35" onclick="mostrarInfo('ku35')">Control y aseguramiento de calidad de alimentos (KU35)</label>
+      <span class="requisito">KU34</span>
+    </div>
+    <div class="asignatura disabled" id="a-lu36_ii">
+      <input type="checkbox" id="lu36_ii" disabled />
+      <label for="lu36_ii" onclick="mostrarInfo('lu36_ii')">Manejo productivo II (LU36_II)</label>
+      <span class="requisito">IU28 + IU27</span>
+    </div>
+    <div class="asignatura disabled" id="a-lu37">
+      <input type="checkbox" id="lu37" disabled />
+      <label for="lu37" onclick="mostrarInfo('lu37')">Impacto ambiental (LU37)</label>
+      <span class="requisito">KU33</span>
+    </div>
+    <div class="asignatura disabled" id="a-mu39">
+      <input type="checkbox" id="mu39" disabled />
+      <label for="mu39" onclick="mostrarInfo('mu39')">Medicina interna II (MU39)</label>
+      <span class="requisito">MU38 + HU23</span>
+    </div>
+    <div class="asignatura disabled" id="a-mu40">
+      <input type="checkbox" id="mu40" disabled />
+      <label for="mu40" onclick="mostrarInfo('mu40')">Anestesiología y cirugía I (MU40)</label>
+      <span class="requisito">HU23 + MU38</span>
+    </div>
+    <div class="asignatura disabled" id="a-mu41">
+      <input type="checkbox" id="mu41" disabled />
+      <label for="mu41" onclick="mostrarInfo('mu41')">Anestesiología y cirugía II (MU41)</label>
+      <span class="requisito">HU23 + MU38</span>
+    </div>
+    <div class="asignatura disabled" id="a-nu42">
+      <input type="checkbox" id="nu42" disabled />
+      <label for="nu42" onclick="mostrarInfo('nu42')">Patología en explotaciones masivas (NU42)</label>
+      <span class="requisito">FU17 + HU22</span>
+    </div>
+    <div class="asignatura disabled" id="a-mabl">
+      <input type="checkbox" id="mabl" disabled />
+      <label for="mabl" onclick="mostrarInfo('mabl')">Bases legislativas (MABL)</label>
+      <span class="requisito">KU34</span>
+    </div>
+  </div>
+
+  <!-- SEMESTRE 10 -->
+  <div class="semestre" id="sem10">
+    <h2>10º Semestre</h2>
+    <div class="progress-bar"><div class="progress-fill" id="prog-sem10"></div></div>
+
+    <div class="asignatura disabled" id="a-intmedvet">
+      <input type="checkbox" id="intmedvet" disabled />
+      <label for="intmedvet" onclick="mostrarInfo('intmedvet')">Internado de medicina veterinaria</label>
+      <span class="requisito">Todos previos</span>
+    </div>
+    <div class="asignatura disabled" id="a-intmedprev">
+      <input type="checkbox" id="intmedprev" disabled />
+      <label for="intmedprev" onclick="mostrarInfo('intmedprev')">Internado de medicina preventiva</label>
+      <span class="requisito">Todos previos</span>
+    </div>
+    <div class="asignatura disabled" id="a-intprodani">
+      <input type="checkbox" id="intprodani" disabled />
+      <label for="intprodani" onclick="mostrarInfo('intprodani')">Internado de producción animal</label>
+      <span class="requisito">Todos previos</span>
+    </div>
+    <div class="asignatura" id="a-practica">
+      <input type="checkbox" id="practica" />
+      <label for="practica" onclick="mostrarInfo('practica')">Práctica profesional</label>
+    </div>
+  </div>
+
+</div>
+
+<div id="info">Haz click en una asignatura para ver detalles y requisitos aquí.</div>
+
+<script>
+  // Información descriptiva para cada asignatura
+  const infoAsignaturas = {
+    au1: 'Bases Moleculares (AU1)',
+    mmi001: 'Introducción al manejo de la información (MMI001)',
+    du10: 'Métodos de Cuantificación (DU10)',
+    cu7: 'Diversidad Animal (CU7)',
+    omv001: 'Orientación a la Medicina Veterinaria (OMV001)',
+
+    au3: 'Bases Celulares (AU3) - Requiere AU1',
+    'sem-a': 'Seminario Espacio (SEM-A)',
+    au2: 'Bases Moleculares y Celulares (AU2) - Requiere AU1',
+    bu4: 'Histología (BU4)',
+    bu5: 'Anatomía (BU5)',
+    cu8: 'Ecología (CU8) - Requiere CU7',
+    du11: 'Bioestadística (DU11) - Requiere MMI001 y DU10',
+
+    bu4_3: 'Histología (BU4)',
+    bu5_3: 'Anatomía (BU5)',
+    eu13: 'Fisiología I (EU13) - Requiere AU3 y AU2',
+    cu9: 'Conducta Animal (CU9) - Requiere CU8',
+    du12: 'Epidemiología General (DU12) - Requiere DU11',
+    gu18_19: 'Economía (GU18-19)',
+
+    maep: 'Ecología de poblaciones (MAEP) - Requiere CU8',
+    bu6: 'Bases inmunológicas (BU6) - Requiere AU2',
+    eu14: 'Fisiología II (EU14) - Requiere EU13 y BU5',
+    eu15: 'Farmacología general (EU15) - Requiere EU13',
+    fu16: 'Agentes biológicos patógenos (FU16) - Requiere AU3 y AU2',
+    iu24: 'Introducción a la producción animal (IU24)',
+    micb: 'Módulo integrador ciclo básico (MICB) - Requiere todos los ramos previos',
+
+    maig: 'Manipulación de información genética (MAIG) - Requiere DU11',
+    fu17: 'Enfermedades infecciosas y parasitarias (FU17) - Requiere FU16 y DU12',
+    hu20: 'Patología I (HU20) - Requiere BU6 y EU14',
+    iu26: 'Nutrición (IU26) - Requiere EU14 y IU24',
+    ju30: 'Bases tecnológicas diagnósticas (JU30) - Requiere FU16 y BU6',
+
+    maat: 'Anatomía topográfica (MAAT) - Requiere BU5',
+    hu21: 'Patología II (HU21) - Requiere HU20',
+    iu25: 'Genética Básica (IU25) - Requiere MAIG',
+    iu27: 'Alimentación (IU27) - Requiere IU26',
+    ju31: 'Métodos de exploración clínica (JU31) - Requiere HU20 y JU30',
+
+    maca: 'Conducta aplicada (MACA) - Requiere IU24 y CU9',
+    hu22: 'Patología III (HU22) - Requiere HU21',
+    hu23: 'Hematología (HU23) - Requiere HU21',
+    iu28: 'Reproducción (IU28) - Requiere HU21 y IU25',
+    iu29: 'Biotecnología reproductiva (IU29) - Requiere IU25 y HU21',
+    mu38: 'Medicina I (MU38) - Ramo 7° y 8° semestre - Requiere JU31 y HU21',
+    ku32: 'Salud Pública Veterinaria (KU32) - Requiere FU17',
+
+    maplan: 'Planificación (MAPLAN) - Requiere GU18-19',
+    ku33: 'Gestión Ambiental (KU33) - Requiere KU32',
+    ku34: 'Inocuidad de alimentos (KU34) - Requiere KU32',
+    lu36_i: 'Manejo productivo (LU36_I) - Requiere IU27 y IU28',
+    lu43: 'Obstetricia, ginecología y manejo productivo (LU43) - Requiere IU28 y IU29',
+    mu38_8: 'Medicina I (MU38) - Ramo 8° semestre - Requiere JU31 y HU21',
+    micp: 'Módulo integrador ciclo pre-profesional (MICP) - Requiere todos los previos',
+
+    ku35: 'Control y aseguramiento de calidad de alimentos (KU35) - Requiere KU34',
+    lu36_ii: 'Manejo productivo II (LU36_II) - Requiere IU28 y IU27',
+    lu37: 'Impacto ambiental (LU37) - Requiere KU33',
+    mu39: 'Medicina interna II (MU39) - Requiere MU38 y HU23',
+    mu40: 'Anestesiología y cirugía I (MU40) - Requiere HU23 y MU38',
+    mu41: 'Anestesiología y cirugía II (MU41) - Requiere HU23 y MU38',
+    nu42: 'Patología en explotaciones masivas (NU42) - Requiere FU17 y HU22',
+    mabl: 'Bases legislativas (MABL) - Requiere KU34',
+
+    intmedvet: 'Internado de medicina veterinaria - Requiere todos los previos',
+    intmedprev: 'Internado de medicina preventiva - Requiere todos los previos',
+    intprodani: 'Internado de producción animal - Requiere todos los previos',
+    practica: 'Práctica profesional',
+  };
+
+  // Requisitos en formato lista para cada asignatura
+  const requisitos = {
+    au3: ['au1'],
+    'sem-a': [],
+    au2: ['au1'],
+    bu4: [],
+    bu5: [],
+    cu8: ['cu7'],
+    du11: ['mmi001', 'du10'],
+
+    bu4_3: [],
+    bu5_3: [],
+    eu13: ['au3', 'au2'],
+    cu9: ['cu8'],
+    du12: ['du11'],
+    gu18_19: [],
+
+    maep: ['cu8'],
+    bu6: ['au2'],
+    eu14: ['eu13', 'bu5'],
+    eu15: ['eu13'],
+    fu16: ['au3', 'au2'],
+    iu24: [],
+micb: [
+  'au1', 'mmi001', 'du10', 'cu7', 'omv001', // 1° semestre
+  'au3', 'sem-a', 'au2', 'bu4', 'bu5', 'cu8', 'du11', // 2°
+  'eu13', 'cu9', 'du12', 'gu18_19' // 3°
+],
+
+    maig: ['du11'],
+    fu17: ['fu16', 'du12'],
+    hu20: ['bu6', 'eu14'],
+    iu26: ['eu14', 'iu24'],
+    ju30: ['fu16', 'bu6'],
+
+    maat: ['bu5'],
+    hu21: ['hu20'],
+    iu25: ['maig'],
+    iu27: ['iu26'],
+    ju31: ['hu20', 'ju30'],
+
+    maca: ['iu24', 'cu9'],
+    hu22: ['hu21'],
+    hu23: ['hu21'],
+    iu28: ['hu21', 'iu25'],
+    iu29: ['iu25', 'hu21'],
+    mu38: ['ju31', 'hu21'],
+    ku32: ['fu17'],
+
+    maplan: ['gu18_19'],
+    ku33: ['ku32'],
+    ku34: ['ku32'],
+    lu36_i: ['iu27', 'iu28'],
+    lu43: ['iu28', 'iu29'],
+    mu38_8: ['ju31', 'hu21'],
+micp: [
+  // 1° semestre
+  'au1', 'mmi001', 'du10', 'cu7', 'omv001',
+  // 2° semestre
+  'au3', 'sem-a', 'au2', 'bu4', 'bu5', 'cu8', 'du11',
+  // 3°
+  'eu13', 'cu9', 'du12', 'gu18_19',
+  // 4°
+  'maep', 'bu6', 'eu14', 'eu15', 'fu16', 'iu24', 'micb',
+  // 5°
+  'maig', 'fu17', 'hu20', 'iu26', 'ju30',
+  // 6°
+  'maat', 'hu21', 'iu25', 'iu27', 'ju31',
+  // 7°
+  'maca', 'hu22', 'hu23', 'iu28', 'iu29', 'mu38', 'ku32'
+],
+
+    ku35: ['ku34'],
+    lu36_ii: ['iu28', 'iu27'],
+    lu37: ['ku33'],
+    mu39: ['mu38', 'hu23'],
+    mu40: ['hu23', 'mu38'],
+    mu41: ['hu23', 'mu38'],
+    nu42: ['fu17', 'hu22'],
+    mabl: ['ku34'],
+
+    intmedvet: ['micp', 'ku35', 'lu36_ii', 'lu37', 'mu39', 'mu40', 'mu41', 'nu42', 'mabl'],
+    intmedprev: ['micp', 'ku35', 'lu36_ii', 'lu37', 'mu39', 'mu40', 'mu41', 'nu42', 'mabl'],
+    intprodani: ['micp', 'ku35', 'lu36_ii', 'lu37', 'mu39', 'mu40', 'mu41', 'nu42', 'mabl'],
+    practica: [],
+  };
+
+  // Función para mostrar info de asignatura en el panel inferior
+  function mostrarInfo(id) {
+    const info = infoAsignaturas[id] || 'Información no disponible.';
+    document.getElementById('info').textContent = info;
+  }
+
+  // Función para verificar si requisitos están cumplidos (checkbox checked)
+  function requisitosCumplidos(reqs) {
+    if (!reqs || reqs.length === 0) return true;
+    return reqs.every(r => document.getElementById(r) && document.getElementById(r).checked);
+  }
+
+  // Actualiza estado (habilita o deshabilita) asignaturas según requisitos
+  function actualizarEstados() {
+    // Recorrer todas las asignaturas
+    Object.keys(requisitos).forEach(asigId => {
+      const checkbox = document.getElementById(asigId);
+      const divAsig = document.getElementById('a-' + asigId);
+      if (!checkbox || !divAsig) return;
+
+      const cumplidos = requisitosCumplidos(requisitos[asigId]);
+
+      if (cumplidos) {
+        checkbox.disabled = false;
+        divAsig.classList.remove('disabled');
+      } else {
+        checkbox.disabled = true;
+        checkbox.checked = false;
+        divAsig.classList.add('disabled');
+      }
+    });
+  }
+
+  // Actualiza barra de progreso por semestre
+  function actualizarProgreso() {
+    for (let s=1; s<=10; s++) {
+      const semestreDiv = document.getElementById('sem' + s);
+      if (!semestreDiv) continue;
+      const checkboxes = semestreDiv.querySelectorAll('input[type="checkbox"]');
+      if (checkboxes.length === 0) continue;
+      let total = 0;
+      let checked = 0;
+      checkboxes.forEach(chk => {
+        if (!chk.disabled) {
+          total++;
+          if (chk.checked) checked++;
+        }
+      });
+      let porcentaje = total === 0 ? 0 : Math.round((checked / total) * 100);
+      const barra = document.getElementById('prog-sem' + s);
+      if (barra) barra.style.width = porcentaje + '%';
+    }
+  }
+
+  // Evento cuando cambia cualquier checkbox
+  document.querySelectorAll('input[type="checkbox"]').forEach(chk => {
+    chk.addEventListener('change', () => {
+      actualizarEstados();
+      actualizarProgreso();
+    });
+  });
+
+  // Inicializar
+  actualizarEstados();
+  actualizarProgreso();
+</script>
+
+</body>
+</html>
