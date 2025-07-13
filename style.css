@@ -1,84 +1,138 @@
+/* Reset y base */
+* {
+  box-sizing: border-box;
+}
+
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
-  padding: 0;
-  background-color: #f9f9f9;
+  background: #f5f7fa;
+  color: #333;
+  padding: 20px;
+  overflow-x: hidden;
 }
 
+/* Contenedor horizontal para semestres */
 #malla {
   display: flex;
-  flex-direction: row;
+  gap: 40px;
   overflow-x: auto;
-  gap: 20px;
-  padding: 20px;
+  padding-bottom: 40px;
+  border-bottom: 2px solid #ddd;
 }
 
+/* Cada semestre como columna */
 .semestre {
   background: white;
-  border-radius: 12px;
-  padding: 15px;
-  min-width: 260px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  flex-shrink: 0;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  min-width: 280px;
+  padding: 20px;
   position: relative;
+  flex-shrink: 0;
 }
 
+/* Título semestre */
 .semestre h3 {
-  margin-top: 0;
-  font-size: 1.2em;
+  font-weight: 700;
+  margin-bottom: 16px;
+  font-size: 1.3em;
   text-align: center;
-  color: #2a2a2a;
+  color: #004a99;
 }
 
-.asignatura {
-  padding: 10px;
-  margin: 6px 0;
-  border-radius: 8px;
-  background: #e3f2fd;
-  cursor: pointer;
-  transition: background 0.3s;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.asignatura:hover {
-  background: #bbdefb;
-}
-
-.asignatura input[type="checkbox"] {
-  transform: scale(1.2);
-}
-
-.asignatura.disabled {
-  background: #eeeeee;
-  cursor: not-allowed;
-  opacity: 0.6;
-}
-
+/* Barra de progreso */
 .progress-container {
-  height: 8px;
-  background: #ddd;
-  border-radius: 4px;
-  margin-bottom: 10px;
+  background: #e0e0e0;
+  height: 12px;
+  border-radius: 8px;
+  margin-bottom: 20px;
   overflow: hidden;
 }
 
 .progress-bar {
-  height: 8px;
-  background: #4caf50;
-  width: 0%;
-  transition: width 0.3s;
+  background: #007bff;
+  height: 12px;
+  width: 0;
+  transition: width 0.4s ease;
 }
 
+/* Cada asignatura */
+.asignatura {
+  background: #f1f8ff;
+  margin-bottom: 12px;
+  padding: 10px 15px;
+  border-radius: 6px;
+  box-shadow: inset 0 0 5px rgba(0,123,255,0.2);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: background-color 0.3s ease;
+  font-weight: 600;
+  font-size: 0.95em;
+  user-select: none;
+}
+
+/* Checkbox estilo */
+.asignatura input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+/* Hover */
+.asignatura:hover:not(.disabled) {
+  background: #d0e7ff;
+}
+
+/* Deshabilitado */
+.asignatura.disabled {
+  background: #ddd;
+  color: #777;
+  cursor: default;
+  box-shadow: none;
+}
+
+/* Info abajo fijo */
 #info {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
   background: white;
-  padding: 12px;
-  border-top: 1px solid #ccc;
-  font-size: 14px;
-  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.05);
+  padding: 14px 20px;
+  border-top: 2px solid #004a99;
+  font-size: 1em;
+  color: #004a99;
+  font-weight: 600;
+  box-shadow: 0 -3px 10px rgba(0,0,0,0.1);
+  user-select: none;
+}
+
+/* Scrollbar estilo para el contenedor */
+#malla::-webkit-scrollbar {
+  height: 10px;
+}
+#malla::-webkit-scrollbar-track {
+  background: #f0f0f0;
+}
+#malla::-webkit-scrollbar-thumb {
+  background: #007bff;
+  border-radius: 5px;
+}
+
+/* Responsive - menos espacio en móviles */
+@media (max-width: 600px) {
+  #malla {
+    gap: 20px;
+    padding-bottom: 30px;
+  }
+  .semestre {
+    min-width: 240px;
+    padding: 15px;
+  }
+  .asignatura {
+    font-size: 0.9em;
+  }
 }
